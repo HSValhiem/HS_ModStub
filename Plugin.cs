@@ -54,6 +54,15 @@ namespace ModStub
 
         #endregion
 
+        // Full List of Default MonoBehavior Methods like Awake
+        //void Awake() is called prior to Start()
+        //void Start() is called is the GameObject is enabled
+        //void Update() is called every frame, can be skipped for several frames to keep FPS up
+        //void FixedUpdate() is called every frame, will not be skipped
+        //void LateUpdate() is called after all other Update-methods
+        //void OnEnable()/OnDiable() is called when the GameObject is enabled/disabled
+        //void OnDestroy() is called when the GameObject is destroyed(via GameObject.Destroy)
+        //void OnGUI() is called when drawing and allows the script to use the GUI-API(described later on)
         public void Awake()
         {
             // Actual Config Settings
