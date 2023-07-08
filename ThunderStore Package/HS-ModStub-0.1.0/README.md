@@ -1,11 +1,6 @@
 # ModStub
 
-Check the Github for a full Writeup[GitHub](GITHUBLINK).
-
-## Thanks!
-Massive Thanks to Smoothbrain for the amazing Libraries and Mods provided to the community!
-
-This mod uses the ServerSync Library from Smoothbrain to enable Server-Client Config Synchronization.
+## Special Thanks!
 
 ## Beta Version Notice:
 

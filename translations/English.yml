@@ -1,0 +1,4 @@
+# Ready to use english translation file for the plugin
+# (for more information on LocalizationManager, see the LocalizationManager documentation https://github.com/blaxxun-boop/LocalizationManager#example-project).
+  "pp_odins_warlock_hat": "Odins Warlock Hat"
+  "pp_odins_warlock_hat_description": "A hat for your warlock self. Wearing this item greatly amplifies the smoke screen ability of your Odins Dragon Staff.\n\nBlock chance increased by {power}%\nRadius increased by {radius}\nDuration increased by {duration} minutes"

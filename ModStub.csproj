@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <AssemblyName>ModStub</AssemblyName>
-    <Description>LandAnimals</Description>
+    <Description>ModStub</Description>
     <Version>0.1.0</Version>
 	<LangVersion>10</LangVersion>
 	<Nullable>enable</Nullable>
@@ -12,23 +12,36 @@
 
   <ItemGroup>
     <Compile Remove="ExportedAssets\**" />
+    <Compile Remove="ThunderStore Package\**" />
     <EmbeddedResource Remove="ExportedAssets\**" />
+    <EmbeddedResource Remove="ThunderStore Package\**" />
     <None Remove="ExportedAssets\**" />
+    <None Remove="ThunderStore Package\**" />
   </ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="BepInEx.Core" Version="5.*" />
     <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2" />
 
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+		<PackageReference Include="YamlDotNet" Version="13.1.1" />
 	</ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
   
+  	<ItemGroup>
+		<Reference Include="ItemManager">
+		  <HintPath>Libs\Blaxxun\ItemManager.dll</HintPath>
+		</Reference>
+		<Reference Include="LocalizationManager">
+		  <HintPath>Libs\Blaxxun\LocalizationManager.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.CSharp">
+		</Reference>
+   </ItemGroup>
   <ItemGroup>
 	  <Reference Include="0Harmony">
 	    <HintPath>Libs\BepInEx\0Harmony.dll</HintPath>
