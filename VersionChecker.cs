@@ -12,7 +12,7 @@ internal static class VersionChecker
 {
     // GENENERATED AT RUNTIME DO NOT SET MANUALLY
     #region Compiler Generated Values
-    private const string ValheimVersion = "0.218.12";
+    private const string ValheimVersion = "0.218.14";
     #endregion
 
     public static bool Check(ManualLogSource logger, PluginInfo info, bool allowWrongVersion = false, ConfigFile? config = null)

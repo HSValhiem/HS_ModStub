@@ -16,7 +16,7 @@
 		<!-- Define BepInEx Plugin Name -->
 		<Product>$(MSBuildProjectName)</Product>
 		<!-- Define BepInEx Plugin Version -->
-		<Version>0.0.1</Version>
+		<Version>0.0.2</Version>
 		<!-- Define Plugin Folder Name with Leading and Trailing \ I.E \$(Authors).$(Product)\, Leave Blank to put Plugin in Root of Plugins Folder-->
 		<PluginFolderName></PluginFolderName>
 		<!-- Define Valheim Location, References and Plugins Directory Paths -->
@@ -26,7 +26,8 @@
 		<ValheimEXEPath>D:\SteamLibrary\steamapps\common\Valheim\valheim.exe</ValheimEXEPath>
 		<!-- Set True to Start Valheim After Build -->
 		<LaunchValheim>False</LaunchValheim>
-		<!-- Set True to Start Valheim After Build -->
+		<LaunchValheimRelease>False</LaunchValheimRelease>
+		<!-- Set Launch Args -->
 		<LaunchValheimArgs>-console -force-gfx-jobs native</LaunchValheimArgs>
 	</PropertyGroup>
 
@@ -439,9 +440,9 @@
 
 		<!-- Update VersionChecker.cs with the Detected Version -->
 		<ItemGroup>
-			<VersionReplacmentPattern Include="private const string ValheimVersion = &quot;(.*?)&quot;;" />
+			<ValheimVersionReplacmentPattern Include="private const string ValheimVersion = &quot;(.*?)&quot;;" />
 		</ItemGroup>
-		<FileUpdate Files="$(MSBuildProjectDirectory)\VersionChecker.cs" Regex="@(VersionReplacmentPattern)" ReplacementText="private const string ValheimVersion = &quot;$(ValheimVersionResult)&quot;" />
+		<FileUpdate Files="$(MSBuildProjectDirectory)\VersionChecker.cs" Regex="@(ValheimVersionReplacmentPattern)" ReplacementText="private const string ValheimVersion = &quot;$(ValheimVersionResult)&quot;" />
 	</Target>
 
 	<!-- Deploy Mod to BepinEx Plugins Directory -->
@@ -489,7 +490,7 @@
 
 		<!-- Zip Mod -->
 		<Exec Command="del &quot;$(ThunderStoreTarget).zip&quot;" ContinueOnError="true" />
-		<Exec Command="Tar -cvf &quot;$(ThunderStoreTarget).zip&quot; -C &quot;$(ThunderStoreTarget)&quot; *.*" />
+		<Exec Command="Tar -a -cf &quot;$(ThunderStoreTarget).zip&quot; -C &quot;$(ThunderStoreTarget)&quot; *.*" />
 		<RemoveDir Directories="$(ThunderStoreTarget)" />
 
 		<!-- Archive Mod -->
@@ -497,7 +498,7 @@
 		<Exec Command="xcopy &quot;$(ThunderStoreTarget).zip&quot; &quot;$(SolutionDir)ThunderStore\Archived&quot; /Y /I" />
 
 		<!-- Start Valheim -->
-		<ExecAsync FilePath="$(ValheimEXEPath)" Arguments="$(LaunchValheimArgs)" ContinueOnError="true" Condition="'$(LaunchValheim)' == 'True'" />
+		<ExecAsync FilePath="$(ValheimEXEPath)" Arguments="$(LaunchValheimArgs)" ContinueOnError="true" Condition="'$(LaunchValheimRelease)' == 'True'" />
 	</Target>
 
 	<!-- Start Valheim -->
