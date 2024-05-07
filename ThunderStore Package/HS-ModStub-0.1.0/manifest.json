@@ -1,9 +1,0 @@
-{
-    "name": "HS_ModStub",
-    "version_number": "0.1.1",
-    "website_url": "GITHUBLINK",
-    "description": "DESCRIPTION",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2105"
-    ]
-}

@@ -1,0 +1,507 @@
+﻿<!-- STUB VERSION 0.0.1-->
+<Project Sdk="Microsoft.NET.Sdk">
+	<!-- Static Config -->
+	<PropertyGroup>
+		<TargetFrameworks>net462</TargetFrameworks>
+		<LangVersion>preview</LangVersion>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<Authors>HS</Authors>
+	</PropertyGroup>
+
+	<!-- Per Plugin Config -->
+	<PropertyGroup>
+		<!-- Define BepInEx Plugin GUID -->
+		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
+		<!-- Define BepInEx Plugin Name -->
+		<Product>$(MSBuildProjectName)</Product>
+		<!-- Define BepInEx Plugin Version -->
+		<Version>0.0.1</Version>
+		<!-- Define Plugin Folder Name with Leading and Trailing \ I.E \$(Authors).$(Product)\, Leave Blank to put Plugin in Root of Plugins Folder-->
+		<PluginFolderName></PluginFolderName>
+		<!-- Define Valheim Location, References and Plugins Directory Paths -->
+		<ValheimDevPath>F:\ValheimDev</ValheimDevPath>
+		<ValheimReferencesPath>$(ValheimDevPath)\Libs</ValheimReferencesPath>
+		<ValheimBepInExPluginsPath>D:\SteamLibrary\steamapps\common\Valheim\BepInEx\Plugins</ValheimBepInExPluginsPath>
+		<ValheimEXEPath>D:\SteamLibrary\steamapps\common\Valheim\valheim.exe</ValheimEXEPath>
+		<!-- Set True to Start Valheim After Build -->
+		<LaunchValheim>False</LaunchValheim>
+		<!-- Set True to Start Valheim After Build -->
+		<LaunchValheimArgs>-console -force-gfx-jobs native</LaunchValheimArgs>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="assets\**" />
+		<Compile Remove="ThunderStore\**" />
+		<Compile Remove="translations\**" />
+		<EmbeddedResource Remove="assets\**" />
+		<EmbeddedResource Remove="ThunderStore\**" />
+		<EmbeddedResource Remove="translations\**" />
+		<None Remove="assets\**" />
+		<None Remove="ThunderStore\**" />
+		<None Remove="translations\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="README.md" />
+	</ItemGroup>
+
+	<!-- Nuget Config -->
+	<ItemGroup>
+		<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="BepInEx.BaseLib" Version="5.4.21" />
+		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
+		<PackageReference Include="HarmonyX" Version="2.12.0" />
+		<PackageReference Include="MonoMod.Backports" Version="1.1.0" />
+		<PackageReference Include="MSBuildTasks" Version="1.5.0.235">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2" />
+		<PackageReference Include="YamlDotNet" Version="15.1.2" />
+	</ItemGroup>
+
+	<!-- Valheim References -->
+	<ItemGroup>
+		<Reference Include="assembly_googleanalytics" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_googleanalytics.dll</HintPath>
+		</Reference>
+		<Reference Include="assembly_guiutils" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_guiutils.dll</HintPath>
+		</Reference>
+		<Reference Include="assembly_lux" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_lux.dll</HintPath>
+		</Reference>
+		<Reference Include="assembly_postprocessing" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_postprocessing.dll</HintPath>
+		</Reference>
+		<Reference Include="assembly_simplemeshcombine" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_simplemeshcombine.dll</HintPath>
+		</Reference>
+		<Reference Include="assembly_steamworks" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_steamworks.dll</HintPath>
+		</Reference>
+		<Reference Include="assembly_sunshafts" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_sunshafts.dll</HintPath>
+		</Reference>
+		<Reference Include="assembly_utils" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_utils.dll</HintPath>
+		</Reference>
+		<Reference Include="assembly_valheim" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\Valheim\assembly_valheim.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<!-- Unity References -->
+	<ItemGroup>
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\Unity.TextMeshPro.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AccessibilityModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.AccessibilityModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AIModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.AIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AndroidJNIModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.AndroidJNIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AnimationModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.AnimationModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AssetBundleModule" Publicize="true">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.AssetBundleModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AudioModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.AudioModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ClothModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.ClothModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ClusterInputModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.ClusterInputModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ClusterRendererModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.ClusterRendererModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CrashReportingModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.CrashReportingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.DirectorModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.DirectorModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.DSPGraphModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.DSPGraphModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.GameCenterModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.GameCenterModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.GIModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.GIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.GridModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.GridModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.HotReloadModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.HotReloadModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ImageConversionModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.ImageConversionModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.IMGUIModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.IMGUIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.InputLegacyModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.InputLegacyModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.InputModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.InputModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.JSONSerializeModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.JSONSerializeModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.LocalizationModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.LocalizationModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ParticleSystemModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.ParticleSystemModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.PerformanceReportingModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.PerformanceReportingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.Physics2DModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.Physics2DModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.PhysicsModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.PhysicsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ProfilerModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.ProfilerModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ScreenCaptureModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.ScreenCaptureModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SharedInternalsModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.SharedInternalsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SpriteMaskModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.SpriteMaskModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SpriteShapeModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.SpriteShapeModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.StreamingModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.StreamingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SubstanceModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.SubstanceModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SubsystemsModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.SubsystemsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TerrainModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.TerrainModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TerrainPhysicsModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TextCoreModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.TextCoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TextRenderingModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.TextRenderingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TilemapModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.TilemapModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TLSModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.TLSModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UI.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UIElementsModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UIElementsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UIElementsNativeModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UIElementsNativeModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UIModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UmbraModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UmbraModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UNETModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UNETModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityAnalyticsCommonModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityAnalyticsModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityConnectModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityConnectModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityCurlModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityCurlModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityTestProtocolModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestAudioModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityWebRequestModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestTextureModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestWWWModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VehiclesModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.VehiclesModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VFXModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.VFXModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VideoModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.VideoModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VirtualTexturingModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.VirtualTexturingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VRModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.VRModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.WindModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.WindModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.XRModule">
+			<HintPath>$(ValheimReferencesPath)\unstripped_corlib\UnityEngine.XRModule.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<!-- Library References -->
+	<ItemGroup>
+		<Reference Include="PieceManager">
+			<HintPath>$(ValheimReferencesPath)\Azu\PieceManager.dll</HintPath>
+		</Reference>
+		<Reference Include="CreatureManager">
+			<HintPath>$(ValheimReferencesPath)\Blaxxun\CreatureManager.dll</HintPath>
+		</Reference>
+		<Reference Include="GroupsAPI">
+			<HintPath>$(ValheimReferencesPath)\Blaxxun\GroupsAPI.dll</HintPath>
+		</Reference>
+		<Reference Include="ItemDataManager">
+			<HintPath>$(ValheimReferencesPath)\Blaxxun\ItemDataManager.dll</HintPath>
+		</Reference>
+		<Reference Include="ItemManager">
+			<HintPath>$(ValheimReferencesPath)\Blaxxun\ItemManager.dll</HintPath>
+		</Reference>
+		<Reference Include="LocalizationManager">
+			<HintPath>$(ValheimReferencesPath)\Blaxxun\LocalizationManager.dll</HintPath>
+		</Reference>
+		<Reference Include="LocationManager">
+			<HintPath>$(ValheimReferencesPath)\Blaxxun\LocationManager.dll</HintPath>
+		</Reference>
+		<Reference Include="ServerSync">
+			<HintPath>$(ValheimReferencesPath)\Blaxxun\ServerSync.dll</HintPath>
+		</Reference>
+		<Reference Include="SkillManager">
+			<HintPath>$(ValheimReferencesPath)\Blaxxun\SkillManager.dll</HintPath>
+		</Reference>
+		<Reference Include="Jotunn">
+			<HintPath>$(ValheimReferencesPath)\Jotuun\Jotunn.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<!-- Search the manifest_extended file for the manifest name that contains the changelog asset and return it -->
+	<UsingTask TaskName="FindTargetManifest" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<FilePath ParameterType="System.String" Required="true" />
+			<TargetLine ParameterType="System.String" Required="true" />
+			<OutputLineAbove ParameterType="System.String" Output="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System.IO" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+					var lines = File.ReadLines(FilePath);
+					var lineAbove = lines.TakeWhile(line => line.Trim() != TargetLine).LastOrDefault();
+
+					if (lineAbove != null)
+					{
+						string[] parts = lineAbove.Split(':');
+						OutputLineAbove = parts.Length > 1 ? parts[1].Trim() : null;
+					}
+				]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<!-- Search the manifest file for the next Non-Empty line after "# Xbox Game Preview" line and return the Version -->
+	<UsingTask TaskName="FindValheimVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<FilePath ParameterType="System.String" Required="true" />
+			<LineToSearch ParameterType="System.String" Required="true" />
+			<ValheimVersion ParameterType="System.String" Output="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System.IO" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+					bool lineFound = false;
+					var lines = File.ReadLines(FilePath);
+					foreach (var line in lines)
+					{
+						if (line.Trim() == LineToSearch)
+						{
+							var nextLine = lines.SkipWhile(l => l.Trim().Length == 0).FirstOrDefault();
+        
+							if (nextLine != null)
+							{
+								string[] parts = nextLine.Split(' ');
+								ValheimVersion = parts.Length > 1 ? parts[1].Trim() : null;
+								lineFound = true;
+							}
+							break;
+						}
+					}
+					if (!lineFound)
+					{
+						Log.LogError("Unable to Get Valheim Version!!! Error: Line '" + LineToSearch + "' not found in the file.");
+						return false;
+					}
+					else if(string.IsNullOrEmpty(ValheimVersion))
+					{
+						Log.LogError("Unable to Get Valheim Version!!! Error: No non-empty line found after '" + LineToSearch + "'.");
+						return false;
+					}
+					return true;
+            ]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<!--Launch a Process in Parallel-->
+	<UsingTask TaskName="ExecAsync" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<!--The file path is the full path to the executable file to run-->
+			<FilePath ParameterType="System.String" Required="true" />
+			<!--The arguments should contain all the command line arguments that need to be sent to the application-->
+			<Arguments ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+				string name = System.IO.Path.GetFileNameWithoutExtension(FilePath);
+				Log.LogMessage("Starting {0}...", name);        
+				System.Diagnostics.ProcessStartInfo processStartInfo = new System.Diagnostics.ProcessStartInfo(FilePath, Arguments);
+				processStartInfo.UseShellExecute = true;
+				System.Diagnostics.Process.Start(processStartInfo);
+				Log.LogMessage("Finished running process {0}.", name);
+				]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<!-- Get and Update Valheim Version for the VersionChecker -->
+	<Target Name="UpdateVersion" BeforeTargets="BeforeBuild">
+		<!-- Get Manifest Name that Contains the Changelog Asset -->
+		<FindTargetManifest FilePath="$(ValheimDevPath)\valheim\valheim_Data\StreamingAssets\SoftReferenceableAssets\manifest_extended" TargetLine="path in bundle: Assets/UI/changelog.txt">
+			<Output TaskParameter="OutputLineAbove" PropertyName="TargetManifest" />
+		</FindTargetManifest>
+
+		<!-- Get version string from Changelog in Manifest -->
+		<FindValheimVersion FilePath="$(ValheimDevPath)\valheim\valheim_Data\StreamingAssets\SoftReferenceableAssets\Bundles\$(TargetManifest)" LineToSearch="# Xbox Game Preview">
+			<Output TaskParameter="ValheimVersion" PropertyName="ValheimVersionResult" />
+		</FindValheimVersion>
+		<Message Text="Detected Valheim Version: $(ValheimVersionResult)" Importance="High" />
+
+		<!-- Update VersionChecker.cs with the Detected Version -->
+		<ItemGroup>
+			<VersionReplacmentPattern Include="private const string ValheimVersion = &quot;(.*?)&quot;;" />
+		</ItemGroup>
+		<FileUpdate Files="$(MSBuildProjectDirectory)\VersionChecker.cs" Regex="@(VersionReplacmentPattern)" ReplacementText="private const string ValheimVersion = &quot;$(ValheimVersionResult)&quot;" />
+	</Target>
+
+	<!-- Deploy Mod to BepinEx Plugins Directory -->
+	<Target Name="DeployMod" AfterTargets="ILRepacker">
+		<!-- Copy the target path to the EFTBepInExPluginsPath directory -->
+		<Exec Command="xcopy &quot;$(TargetPath)&quot; &quot;$(ValheimBepInExPluginsPath)$(PluginFolderName)&quot; /Y /I" />
+
+		<!-- Copy the .pdb file to the EFTBepInExPluginsPath directory if the configuration is not 'Release' -->
+		<Exec Condition="'$(Configuration)' != 'Release'" Command="xcopy &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;$(ValheimBepInExPluginsPath)$(PluginFolderName)&quot; /Y /I" />
+
+		<!-- Delete the any existing .pdb file if the configuration is 'Release' -->
+		<Exec Condition="'$(Configuration)' == 'Release'" Command="del &quot;$(ValheimBepInExPluginsPath)$(PluginFolderName)\$(TargetName).pdb&quot;" />
+	</Target>
+
+	<Target Name="PublishMod" AfterTargets="DeployMod" Condition="'$(Configuration)' == 'Release'">
+
+		<PropertyGroup>
+			<ChangelogFilePath>$(SolutionDir)ThunderStore\CHANGELOG.md</ChangelogFilePath>
+			<ReadmeFilePath>$(SolutionDir)ThunderStore\README.md</ReadmeFilePath>
+			<ManifestFilePath>$(SolutionDir)ThunderStore\manifest.json</ManifestFilePath>
+			<ThunderStoreTarget>$(SolutionDir)ThunderStore\$(Product)-$(Version)</ThunderStoreTarget>
+		</PropertyGroup>
+
+		<!-- Update manifest.json with the Current Mod Version -->
+		<ItemGroup>
+			<VersionReplacmentPattern Include="&quot;version_number&quot;: &quot;(.*?)&quot;;" />
+		</ItemGroup>
+		<FileUpdate Files="$(ManifestFilePath)" Regex="@(VersionReplacmentPattern)" ReplacementText="&quot;version_number&quot;: &quot;$(Version)&quot;" />
+
+		<!-- Copy Mod into ThunderStore folder with Plugin Name and Version-->
+		<Exec Command="mkdir &quot;$(ThunderStoreTarget)\plugins&quot;" ContinueOnError="true" />
+		<Exec Command="xcopy &quot;$(TargetPath)&quot; &quot;$(ThunderStoreTarget)\plugins&quot; /Y /I" />
+
+		<!-- Open CHANGELOG.md in the text editor -->
+		<Exec Command="notepad.exe &quot;$(ChangelogFilePath)&quot;" />
+
+		<!-- Open README.md in the text editor -->
+		<Exec Command="notepad.exe &quot;$(ReadmeFilePath)&quot;" />
+
+		<!-- Copy Mod Thunderstore Files into ThunderStore folder with Plugin Name and Version-->
+		<Exec Command="xcopy &quot;$(ManifestFilePath)&quot; &quot;$(ThunderStoreTarget)&quot; /Y /I" />
+		<Exec Command="xcopy &quot;$(ChangelogFilePath)&quot; &quot;$(ThunderStoreTarget)&quot; /Y /I" />
+		<Exec Command="xcopy &quot;$(ReadmeFilePath)&quot; &quot;$(ThunderStoreTarget)&quot; /Y /I" />
+		<Exec Command="xcopy &quot;$(SolutionDir)ThunderStore\icon.png&quot; &quot;$(ThunderStoreTarget)&quot; /Y /I" />
+
+		<!-- Zip Mod -->
+		<Exec Command="del &quot;$(ThunderStoreTarget).zip&quot;" ContinueOnError="true" />
+		<Exec Command="Tar -cvf &quot;$(ThunderStoreTarget).zip&quot; -C &quot;$(ThunderStoreTarget)&quot; *.*" />
+		<RemoveDir Directories="$(ThunderStoreTarget)" />
+
+		<!-- Archive Mod -->
+		<Exec Command="mkdir &quot;$(SolutionDir)ThunderStore\Archived&quot;" ContinueOnError="true" />
+		<Exec Command="xcopy &quot;$(ThunderStoreTarget).zip&quot; &quot;$(SolutionDir)ThunderStore\Archived&quot; /Y /I" />
+
+		<!-- Start Valheim -->
+		<ExecAsync FilePath="$(ValheimEXEPath)" Arguments="$(LaunchValheimArgs)" ContinueOnError="true" Condition="'$(LaunchValheim)' == 'True'" />
+	</Target>
+
+	<!-- Start Valheim -->
+	<Target Name="LaunchExecutable" AfterTargets="DeployMod" Condition="'$(LaunchValheim)' == 'True' and '$(Configuration)' != 'Release'">
+		<ExecAsync FilePath="$(ValheimEXEPath)" Arguments="$(LaunchValheimArgs)" ContinueOnError="true" />
+	</Target>
+</Project>
