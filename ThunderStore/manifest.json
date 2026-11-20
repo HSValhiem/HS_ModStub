@@ -1,0 +1,9 @@
+{
+    "name": "HS_ModStub",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/HSValhiem/HS_ModStub",
+    "description": "TODO: one line, at most 250 characters, saying what the mod does.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2360"
+    ]
+}

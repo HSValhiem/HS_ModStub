@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Picked up by ILRepack.Lib.MSBuild.Task: merges the fetched libraries (lib/) into the mod DLL and internalizes them,
+     so each mod carries its own copy of ServerSync and LocalizationManager. -->
+<Project>
+  <Target Name="ILRepacker" AfterTargets="Build">
+    <ItemGroup>
+      <InputAssemblies Include="$(TargetPath)" />
+      <InputAssemblies Include="@(HsLib->'$(LibDir)\%(Identity).dll')" />
+      <_HsRepackSearch Include="@(ReferencePath->'%(RootDir)%(Directory)')" />
+    </ItemGroup>
+    <RemoveDuplicates Inputs="@(_HsRepackSearch)">
+      <Output TaskParameter="Filtered" ItemName="_HsRepackSearchDirs" />
+    </RemoveDuplicates>
+    <ILRepack Parallel="true" DebugInfo="true" Internalize="true" InputAssemblies="@(InputAssemblies)"
+              OutputFile="$(TargetPath)" TargetKind="SameAsPrimaryAssembly" LibraryPath="@(_HsRepackSearchDirs)" />
+  </Target>
+</Project>

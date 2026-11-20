@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    HS_ModStub: template for HS Valheim mods.
+    Copy the folder, rename HS_ModStub.csproj to your mod name, then edit the "Per mod" group below.
+    Machine paths go in Local.props (copy Local.props.example), never in this file.
+  -->
+  <Import Project="Local.props" Condition="Exists('Local.props')" />
+
+  <!-- Per mod -->
+  <PropertyGroup>
+    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>$(MSBuildProjectName)</RootNamespace>
+    <!-- BepInEx plugin GUID, name and version. Version is the single source: the Thunderstore manifest gets it at package time. -->
+    <PluginGuid>hs.$(MSBuildProjectName.ToLowerInvariant())</PluginGuid>
+    <PluginName>$(MSBuildProjectName)</PluginName>
+    <Version>1.0.0</Version>
+    <!-- Valheim version the mod is built and tested for (VersionChecker compares it with the running game). -->
+    <ValheimVersion>1.0.21</ValheimVersion>
+    <!-- true = compile Examples/ (needs ItemManager, fetched on build). -->
+    <IncludeExamples Condition="'$(IncludeExamples)' == ''">false</IncludeExamples>
+  </PropertyGroup>
+
+  <!-- Build settings -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <!-- CS0436: Publicizer's IgnoresAccessChecksToAttribute also ships inside the merged libs. -->
+    <NoWarn>$(NoWarn);CS0436</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>HS</Authors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DefineConstants Condition="'$(IncludeExamples)' == 'true'">$(DefineConstants);HS_EXAMPLES</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Paths (override in Local.props, on the command line with -p:, or with the VALHEIM_DIR environment variable) -->
+  <PropertyGroup>
+    <ValheimDir Condition="'$(ValheimDir)' == ''">$(VALHEIM_DIR)</ValheimDir>
+    <ValheimDir Condition="'$(ValheimDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Valheim</ValheimDir>
+    <!-- Folder holding assembly_valheim.dll and the UnityEngine modules. -->
+    <ValheimManagedDir Condition="'$(ValheimManagedDir)' == ''">$(ValheimDir)\valheim_Data\Managed</ValheimManagedDir>
+    <!-- Optional: a BepInEx plugins folder (game or mod-manager profile). Empty = no copy after build. -->
+    <DeployDir Condition="'$(DeployDir)' == ''"></DeployDir>
+    <LibDir>$(MSBuildProjectDirectory)\lib</LibDir>
+    <DistDir>$(MSBuildProjectDirectory)\dist</DistDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Examples\**" Condition="'$(IncludeExamples)' != 'true'" />
+    <Compile Remove="dist\**;lib\**;ThunderStore\**" />
+    <None Remove="dist\**;lib\**" />
+    <EmbeddedResource Include="translations\*.yml" />
+    <EmbeddedResource Include="Examples\translations\*.yml" Condition="'$(IncludeExamples)' == 'true'" />
+  </ItemGroup>
+
+  <!-- Compile-time packages (nothing from these is shipped) -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.BaseLib" Version="5.4.21" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="HarmonyX" Version="2.10.2" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.48" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Game references, read from the local install (never committed) -->
+  <ItemGroup>
+    <Reference Include="$(ValheimManagedDir)\assembly_valheim.dll" Private="false" />
+    <Reference Include="$(ValheimManagedDir)\assembly_utils.dll" Private="false" />
+    <Reference Include="$(ValheimManagedDir)\assembly_guiutils.dll" Private="false" />
+    <Reference Include="$(ValheimManagedDir)\UnityEngine.dll" Private="false" />
+    <Reference Include="$(ValheimManagedDir)\UnityEngine.*Module.dll" Private="false" />
+    <Reference Include="$(ValheimManagedDir)\UnityEngine.UI.dll" Private="false" />
+    <Reference Include="$(ValheimManagedDir)\Unity.TextMeshPro.dll" Private="false" />
+    <Publicize Include="assembly_valheim" />
+  </ItemGroup>
+
+  <!-- Libraries merged into the mod DLL by ILRepack (fetched into lib/ by FetchLibs) -->
+  <ItemGroup>
+    <HsLib Include="ServerSync" Url="https://github.com/blaxxun-boop/ServerSync/releases/download/v1.20/ServerSync.dll" Sha256="e8b61f621cc396c529d9194f202e0b22c6591dd919363a4501a579f9f7252e0e" />
+    <HsLib Include="LocalizationManager" Url="https://github.com/blaxxun-boop/LocalizationManager/releases/download/v1.3/LocalizationManager.dll" Sha256="72ec602ea0b60639834a87f011f2ef68fdb9e35362bbdc98a6f3f272edf5857a" />
+    <HsLib Include="ItemManager" Condition="'$(IncludeExamples)' == 'true'" Url="https://github.com/blaxxun-boop/ItemManager/releases/download/2.16/ItemManager.dll" Sha256="fd6e03e0c8229c5b5f2da4f10fd4823384d87ee136c226441ac90efdf01993ff" />
+    <Reference Include="@(HsLib->'$(LibDir)\%(Identity).dll')" Private="true" />
+  </ItemGroup>
+
+  <Import Project="build\HS.targets" />
+</Project>

@@ -1,0 +1,3 @@
+# Strings for Examples/ExampleSetup.cs (embedded only with -p:IncludeExamples=true).
+hs_example_hat: "Example Hat"
+hs_example_hat_description: "Amplifies the smoke screen.\n\nBlock chance +{power}%\nRadius +{radius}\nDuration +{duration} minutes"

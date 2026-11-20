@@ -1,0 +1,3 @@
+# English strings for the mod. LocalizationManager embeds every translations/<Language>.yml.
+# Use a key in game text as $hs_modstub_example; see https://github.com/blaxxun-boop/LocalizationManager
+hs_modstub_example: "HS_ModStub is running"

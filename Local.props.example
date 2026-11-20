@@ -1,0 +1,11 @@
+<!-- Copy to Local.props (git-ignored) and set the paths for this machine. -->
+<Project>
+  <PropertyGroup>
+    <!-- Valheim install folder (the one with valheim.exe). -->
+    <ValheimDir>C:\Program Files (x86)\Steam\steamapps\common\Valheim</ValheimDir>
+    <!-- Or point straight at a folder holding assembly_valheim.dll and the UnityEngine DLLs: -->
+    <!-- <ValheimManagedDir>D:\valheim-refs\1.0.21</ValheimManagedDir> -->
+    <!-- Optional: copy the built DLL into a BepInEx plugins folder (game or mod-manager profile). -->
+    <!-- <DeployDir>C:\Users\you\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dev\BepInEx\plugins</DeployDir> -->
+  </PropertyGroup>
+</Project>
